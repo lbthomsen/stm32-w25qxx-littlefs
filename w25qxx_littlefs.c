@@ -24,12 +24,12 @@ struct lfs_config littlefs_config = {
     .sync  = littlefs_sync,
 
     // block device configuration
-    .read_size = 32,
-    .prog_size = 32,
+    .read_size = 256,
+    .prog_size = 256,
     .block_size = 4096,
-    .block_count = 128,
-    .cache_size = 128,
-    .lookahead_size = 64,
+    .block_count = 256,
+    .cache_size = 256,
+    .lookahead_size = 8,
     .block_cycles = 100,
 };
 
@@ -42,9 +42,6 @@ int w25qxx_littlefs_init(W25QXX_HandleTypeDef *w25qxx_init) {
 
 	littlefs_config.block_size = w25qxx_handle->sector_size;
 	littlefs_config.block_count = w25qxx_handle->sectors_in_block * w25qxx_handle->block_count;
-	littlefs_config.read_size = w25qxx_handle->page_size;
-	littlefs_config.prog_size = w25qxx_handle->page_size;
-	littlefs_config.cache_size = w25qxx_handle->sector_size;
 
 	int err = lfs_mount(&littlefs, &littlefs_config);
 
